@@ -13,10 +13,6 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: [true, "Password is required"],
     },
-    role: {
-      type: String,
-      default: "admin",
-    },
   },
   { timestamps: true }
 );
