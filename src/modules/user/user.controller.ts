@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import AppError from "../../utils/AppError";
 import { User } from "./user.model";
 import { generateAccessToken, generateRefreshToken } from "../../utils/jwt";
+import { sendResponse } from "../../utils/sendResponse";
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -33,13 +34,19 @@ const login = async (req: Request, res: Response) => {
     httpOnly: true,
     secure: true,
     sameSite: "lax",
-    maxAge: 20,
+    maxAge: 15 * 60 * 1000, // 15 minutes
   });
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: "lax",
     maxAge: 50000,
+  });
+  sendResponse(res, {
+    success: true,
+    message: "Log in successful",
+    statusCode: 200,
+    data: null,
   });
 };
 

@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { connectDB } from "./config/connectDB";
+import { connectDB } from "./config/db";
 import envVars from "./config/env";
 import { seedAdmin } from "./utils/seedAdmin";
 import appRoutes from "./routes";
@@ -14,7 +14,7 @@ app.use(cors());
 connectDB();
 seedAdmin();
 
-app.listen(envVars.PORT, () => {
+export const server = app.listen(envVars.PORT, () => {
   console.log(`server started at http://localhost:${envVars.PORT}`);
 });
 
@@ -24,3 +24,5 @@ app.get("/", (_, res) => {
 
 app.use("/api/v1", appRoutes);
 app.use(errorHandler);
+
+export default app;
