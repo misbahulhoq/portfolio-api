@@ -8,15 +8,20 @@ interface EnvVars {
   PORT: number;
   MONGO_URI: string;
   JWT_SECRET: string;
+  ADMIN_EMAIL: string;
+  ADMIN_PASS: string;
+  SALT_ROUND: number;
 }
 
 // List of required environment variables
-
 const requiredVars: (keyof EnvVars)[] = [
   "NODE_ENV",
   "PORT",
   "MONGO_URI",
   "JWT_SECRET",
+  "ADMIN_EMAIL",
+  "ADMIN_PASS",
+  "SALT_ROUND",
 ];
 
 // Check if all required environment variables are set
@@ -32,6 +37,9 @@ const envVars: EnvVars = {
   PORT: Number(process.env.PORT),
   MONGO_URI: process.env.MONGO_URI as string,
   JWT_SECRET: process.env.JWT_SECRET as string,
+  ADMIN_EMAIL: process.env.ADMIN_EMAIL as string,
+  ADMIN_PASS: process.env.ADMIN_PASS as string,
+  SALT_ROUND: Number(process.env.SALT_ROUND),
 };
 
 export default envVars;

@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { connectDB } from "./config/connectDB";
 import envVars from "./config/env";
+import { seedAdmin } from "./utils/seedAdmin";
 
 const app = express();
 
@@ -9,6 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 connectDB();
+seedAdmin();
 
 app.listen(envVars.PORT, () => {
   console.log(`server started at http://localhost:${envVars.PORT}`);
