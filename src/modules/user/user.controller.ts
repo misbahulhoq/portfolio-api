@@ -4,6 +4,9 @@ import { User } from "./user.model";
 import { generateAccessToken, generateRefreshToken } from "../../utils/jwt";
 import { sendResponse } from "../../utils/sendResponse";
 
+/**
+ * This is a comment.
+ */
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   if (!email || !password) {

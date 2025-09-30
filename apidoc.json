@@ -1,0 +1,19 @@
+{
+  "name": "Portfolio API",
+  "description": "API Documentaion for my portfolio backend.",
+  "title": "My portfolio API.",
+  "url": "https://portfolio-api-eosin.vercel.app/api/v1",
+  "sampleUrl": true,
+  "header": {
+    "title": "My portfolio API.",
+    "filename": "header.md"
+  },
+  "footer": {
+    "title": "My portfolio API.",
+    "filename": "footer.md"
+  },
+  "order": ["Auth"],
+  "template": {
+    "showRequiredLabels": true
+  }
+}
