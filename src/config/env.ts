@@ -13,6 +13,8 @@ interface EnvVars {
   ADMIN_EMAIL: string;
   ADMIN_PASS: string;
   SALT_ROUND: number;
+  EMAIL_USER: string;
+  EMAIL_PASS: string;
 }
 
 // List of required environment variables
@@ -27,6 +29,8 @@ const requiredVars: (keyof EnvVars)[] = [
   "ADMIN_EMAIL",
   "ADMIN_PASS",
   "SALT_ROUND",
+  "EMAIL_USER",
+  "EMAIL_PASS",
 ];
 
 // Check if all required environment variables are set
@@ -48,6 +52,8 @@ const envVars: EnvVars = {
   ADMIN_EMAIL: process.env.ADMIN_EMAIL as string,
   ADMIN_PASS: process.env.ADMIN_PASS as string,
   SALT_ROUND: Number(process.env.SALT_ROUND),
+  EMAIL_USER: process.env.EMAIL_USER as string,
+  EMAIL_PASS: process.env.EMAIL_PASS as string,
 };
 
 export default envVars;
