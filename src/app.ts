@@ -5,12 +5,24 @@ import envVars from "./config/env";
 import { seedAdmin } from "./utils/seedAdmin";
 import appRoutes from "./routes";
 import { errorHandler } from "./middleware/errorHanlder";
-
+import cookieParser from "cookie-parser";
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
 
+let origin;
+if (envVars.NODE_ENV === "development") {
+  origin = "http://localhost:3000";
+} else {
+  origin = "https://misbahulhoq.vercel.app";
+}
+app.use(
+  cors({
+    origin,
+    credentials: true,
+  })
+);
 connectDB();
 seedAdmin();
 

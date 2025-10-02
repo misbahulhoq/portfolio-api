@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { CookieOptions, Request, Response } from "express";
 import AppError from "../../utils/AppError";
 import { User } from "./user.model";
 import { generateAccessToken, generateRefreshToken } from "../../utils/jwt";
@@ -8,7 +8,7 @@ import { sendResponse } from "../../utils/sendResponse";
  * This is a comment.
  */
 const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password, isRememberMe } = req.body;
   if (!email || !password) {
     throw new AppError("Email and password is required", 400);
   }
@@ -33,12 +33,15 @@ const login = async (req: Request, res: Response) => {
     email: user.email,
   });
 
-  res.cookie("accessToken", accessToken, {
+  const accessTokenCookieOptions: CookieOptions = {
     httpOnly: true,
     secure: true,
     sameSite: "lax",
-    maxAge: 15 * 60 * 1000, // 15 minutes
-  });
+  };
+  if (isRememberMe) {
+    accessTokenCookieOptions.maxAge = 7 * 24 * 60 * 60 * 1000;
+  }
+  res.cookie("accessToken", accessToken, accessTokenCookieOptions);
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: true,
