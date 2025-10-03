@@ -3,17 +3,16 @@ import AppError from "../../utils/AppError";
 import { User } from "./user.model";
 import { generateAccessToken, generateRefreshToken } from "../../utils/jwt";
 import { sendResponse } from "../../utils/sendResponse";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import envVars from "../../config/env";
 
-/**
- * This is a comment.
- */
 const login = async (req: Request, res: Response) => {
   const { email, password, isRememberMe } = req.body;
   if (!email || !password) {
     throw new AppError("Email and password is required", 400);
   }
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).select("+password");
   if (!user) {
     throw new AppError("Invalid Credentials", 401);
   }
@@ -56,4 +55,27 @@ const login = async (req: Request, res: Response) => {
   });
 };
 
-export const UserControllers = { login };
+const me = async (req: Request, res: Response) => {
+  const accessToken = req.cookies.accessToken;
+  if (!accessToken) {
+    throw new AppError("Access token is required", 401);
+  }
+
+  try {
+    const validToken = jwt.verify(
+      accessToken,
+      envVars.JWT_ACCESS_SECRET
+    ) as JwtPayload;
+    const user = await User.findOne({ email: validToken.email });
+    sendResponse(res, {
+      success: true,
+      message: "User found",
+      statusCode: 200,
+      data: user,
+    });
+  } catch (error: any) {
+    throw new AppError(error.message || "Invalid access token", 401);
+  }
+};
+
+export const UserControllers = { login, me };

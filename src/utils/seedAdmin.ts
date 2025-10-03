@@ -8,6 +8,7 @@ export async function seedAdmin() {
     return;
   } else {
     await User.create({
+      name: "Mezbah Uddin",
       email: envVars.ADMIN_EMAIL,
       password: envVars.ADMIN_PASS,
     });
