@@ -13,4 +13,14 @@ const createProject = async (req: Request, res: Response) => {
   });
 };
 
-export const ProjectController = { createProject };
+const getProjects = async (req: Request, res: Response) => {
+  const projects = await Project.find();
+  sendResponse(res, {
+    success: true,
+    message: "Projects found",
+    statusCode: 200,
+    data: projects,
+  });
+};
+
+export const ProjectController = { createProject, getProjects };
