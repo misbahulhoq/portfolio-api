@@ -6,7 +6,6 @@ const projectSchema = new Schema<IProject>(
     title: {
       type: String,
       required: [true, "Project title is required."],
-      unique: true,
       trim: true,
     },
     thumbnail: {
