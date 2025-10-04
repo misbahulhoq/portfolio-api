@@ -72,18 +72,14 @@ const blogSchema = new Schema<IBlog>(
       type: Number,
       default: 0,
     },
-    likes: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
     likeCount: {
       type: Number,
       default: 0,
     },
-    // The comments field uses the updated commentSchema
-    comments: [commentSchema],
+    dislikeCount: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,
@@ -99,8 +95,11 @@ blogSchema.pre<IBlog>("save", function (next) {
       .replace(/\s+/g, "-")
       .replace(/-+/g, "-");
   }
-  if (this.isModified("likes")) {
-    this.likeCount = this.likes.length;
+  if (this.isModified("likeCount")) {
+    this.likeCount = this.likeCount + 1;
+  }
+  if (this.isModified("dislikeCount")) {
+    this.dislikeCount = this.dislikeCount + 1;
   }
   next();
 });

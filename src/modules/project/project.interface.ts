@@ -3,6 +3,7 @@ import { Document } from "mongoose";
 // Interface for the Project document
 export interface IProject extends Document {
   title: string;
+  tagline: string;
   thumbnail: string[];
   repoLinks: {
     frontend: string;

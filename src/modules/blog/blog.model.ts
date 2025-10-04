@@ -17,8 +17,8 @@ export interface IBlog extends Document {
   status: "draft" | "published" | "archived";
   featuredImage?: string;
   views: number;
-  likes: Types.ObjectId[];
   likeCount: number;
+  dislikeCount: number;
   comments: IComment[];
   createdAt: Date;
   updatedAt: Date;
