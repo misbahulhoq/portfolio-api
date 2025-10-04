@@ -17,6 +17,8 @@ const requiredVars = [
     "ADMIN_EMAIL",
     "ADMIN_PASS",
     "SALT_ROUND",
+    "EMAIL_USER",
+    "EMAIL_PASS",
 ];
 // Check if all required environment variables are set
 for (const key of requiredVars) {
@@ -36,5 +38,7 @@ const envVars = {
     ADMIN_EMAIL: process.env.ADMIN_EMAIL,
     ADMIN_PASS: process.env.ADMIN_PASS,
     SALT_ROUND: Number(process.env.SALT_ROUND),
+    EMAIL_USER: process.env.EMAIL_USER,
+    EMAIL_PASS: process.env.EMAIL_PASS,
 };
 exports.default = envVars;

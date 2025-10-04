@@ -12,22 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.seedAdmin = seedAdmin;
+exports.sendEmail = void 0;
 const env_1 = __importDefault(require("../config/env"));
-const user_model_1 = require("../modules/user/user.model");
-function seedAdmin() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const userExists = yield user_model_1.User.findOne({ email: env_1.default.ADMIN_EMAIL });
-        if (userExists) {
-            console.log("Admin user exists.");
-            return;
-        }
-        else {
-            yield user_model_1.User.create({
-                name: "Mezbah Uddin",
-                email: env_1.default.ADMIN_EMAIL,
-                password: env_1.default.ADMIN_PASS,
-            });
-        }
+const nodemailer_1 = __importDefault(require("nodemailer"));
+const mailTransporter = nodemailer_1.default.createTransport({
+    service: "gmail",
+    auth: {
+        user: env_1.default.EMAIL_USER,
+        pass: env_1.default.EMAIL_PASS,
+    },
+});
+const sendEmail = (body) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, subject, message } = body;
+    // Send email
+    mailTransporter.sendMail({
+        from: env_1.default.EMAIL_USER,
+        to: email,
+        subject,
+        html: message,
     });
-}
+});
+exports.sendEmail = sendEmail;

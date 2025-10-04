@@ -12,22 +12,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.seedAdmin = seedAdmin;
+exports.auth = void 0;
+const AppError_1 = __importDefault(require("../utils/AppError"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const env_1 = __importDefault(require("../config/env"));
 const user_model_1 = require("../modules/user/user.model");
-function seedAdmin() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const userExists = yield user_model_1.User.findOne({ email: env_1.default.ADMIN_EMAIL });
-        if (userExists) {
-            console.log("Admin user exists.");
-            return;
+const auth = () => {
+    return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+        const accessToken = req.cookies.accessToken;
+        if (!accessToken) {
+            throw new AppError_1.default("Access token not found.", 401);
         }
-        else {
-            yield user_model_1.User.create({
-                name: "Mezbah Uddin",
-                email: env_1.default.ADMIN_EMAIL,
-                password: env_1.default.ADMIN_PASS,
-            });
+        try {
+            const decoded = jsonwebtoken_1.default.verify(accessToken, env_1.default.JWT_ACCESS_SECRET);
+            const user = yield user_model_1.User.findOne({ email: decoded.email });
+            req.user = user;
+            next();
+        }
+        catch (err) {
+            throw new AppError_1.default(err.message || "Unauthorized", 401);
         }
     });
-}
+};
+exports.auth = auth;

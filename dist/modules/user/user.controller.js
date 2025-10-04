@@ -17,12 +17,14 @@ const AppError_1 = __importDefault(require("../../utils/AppError"));
 const user_model_1 = require("./user.model");
 const jwt_1 = require("../../utils/jwt");
 const sendResponse_1 = require("../../utils/sendResponse");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const env_1 = __importDefault(require("../../config/env"));
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password } = req.body;
+    const { email, password, isRememberMe } = req.body;
     if (!email || !password) {
         throw new AppError_1.default("Email and password is required", 400);
     }
-    const user = yield user_model_1.User.findOne({ email });
+    const user = yield user_model_1.User.findOne({ email }).select("+password");
     if (!user) {
         throw new AppError_1.default("Invalid Credentials", 401);
     }
@@ -38,12 +40,15 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         _id: user._id,
         email: user.email,
     });
-    res.cookie("accessToken", accessToken, {
+    const accessTokenCookieOptions = {
         httpOnly: true,
         secure: true,
         sameSite: "lax",
-        maxAge: 15 * 60 * 1000, // 15 minutes
-    });
+    };
+    if (isRememberMe) {
+        accessTokenCookieOptions.maxAge = 7 * 24 * 60 * 60 * 1000;
+    }
+    res.cookie("accessToken", accessToken, accessTokenCookieOptions);
     res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: true,
@@ -57,4 +62,23 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         data: null,
     });
 });
-exports.UserControllers = { login };
+const me = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const accessToken = req.cookies.accessToken;
+    if (!accessToken) {
+        throw new AppError_1.default("Access token is required", 401);
+    }
+    try {
+        const validToken = jsonwebtoken_1.default.verify(accessToken, env_1.default.JWT_ACCESS_SECRET);
+        const user = yield user_model_1.User.findOne({ email: validToken.email });
+        (0, sendResponse_1.sendResponse)(res, {
+            success: true,
+            message: "User found",
+            statusCode: 200,
+            data: user,
+        });
+    }
+    catch (error) {
+        throw new AppError_1.default(error.message || "Invalid access token", 401);
+    }
+});
+exports.UserControllers = { login, me };

@@ -5,9 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.errorHandler = void 0;
 const AppError_1 = __importDefault(require("../utils/AppError"));
+const env_1 = __importDefault(require("../config/env"));
 const errorHandler = (err, req, res, next) => {
     let statusCode = 500;
     let message = "Internal Server error.";
+    if (env_1.default.NODE_ENV === "development") {
+        console.log(err);
+    }
     if (err instanceof AppError_1.default) {
         (statusCode = err.statusCode), (message = err.message);
     }

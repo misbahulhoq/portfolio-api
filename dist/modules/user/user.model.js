@@ -50,6 +50,10 @@ const mongoose_1 = __importStar(require("mongoose"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const env_1 = __importDefault(require("../../config/env"));
 const userSchema = new mongoose_1.Schema({
+    name: {
+        type: String,
+        required: [true, "Name is required"],
+    },
     email: {
         type: String,
         required: [true, "Email is required"],
@@ -57,6 +61,7 @@ const userSchema = new mongoose_1.Schema({
     password: {
         type: String,
         required: [true, "Password is required"],
+        select: false,
     },
 }, { timestamps: true });
 userSchema.pre("save", function (next) {
