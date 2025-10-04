@@ -23,4 +23,14 @@ const getProjects = async (req: Request, res: Response) => {
   });
 };
 
-export const ProjectController = { createProject, getProjects };
+const getProjectById = async (req: Request, res: Response) => {
+  const project = await Project.findById(req.params.id);
+  sendResponse(res, {
+    success: true,
+    message: "Project found",
+    statusCode: 200,
+    data: project,
+  });
+};
+
+export const ProjectController = { createProject, getProjects, getProjectById };

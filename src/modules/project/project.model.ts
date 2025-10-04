@@ -9,7 +9,7 @@ const projectSchema = new Schema<IProject>(
       trim: true,
     },
     thumbnail: {
-      type: String,
+      type: [String],
       required: [true, "A thumbnail URL is required."],
     },
     repoLinks: {
@@ -29,13 +29,16 @@ const projectSchema = new Schema<IProject>(
       required: [true, "A project description is required."],
     },
     features: {
-      type: String,
+      type: [String],
       required: [true, "Project features are required."],
     },
     technologies: {
       type: [String],
       required: [true, "Please list the technologies used."],
       default: [],
+    },
+    duration: {
+      type: String,
     },
     displayOrder: {
       type: Number,
