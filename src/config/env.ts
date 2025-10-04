@@ -4,7 +4,6 @@ dotenv.config();
 // Define the shape of required environment variables
 interface EnvVars {
   NODE_ENV: string;
-  PORT: number;
   MONGO_URI: string;
   JWT_ACCESS_SECRET: string;
   JWT_REFRESH_SECRET: string;
@@ -20,7 +19,6 @@ interface EnvVars {
 // List of required environment variables
 const requiredVars: (keyof EnvVars)[] = [
   "NODE_ENV",
-  "PORT",
   "MONGO_URI",
   "JWT_ACCESS_SECRET",
   "JWT_REFRESH_SECRET",
@@ -41,7 +39,7 @@ for (const key of requiredVars) {
 }
 
 // Export with proper typing
-const envVars: EnvVars = {
+const envVars: EnvVars & { PORT: number } = {
   NODE_ENV: process.env.NODE_ENV as string,
   PORT: Number(process.env.PORT),
   MONGO_URI: process.env.MONGO_URI as string,

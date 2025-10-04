@@ -8,7 +8,6 @@ dotenv_1.default.config();
 // List of required environment variables
 const requiredVars = [
     "NODE_ENV",
-    "PORT",
     "MONGO_URI",
     "JWT_ACCESS_SECRET",
     "JWT_REFRESH_SECRET",
