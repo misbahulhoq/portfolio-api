@@ -22,4 +22,52 @@ const createBlog = async (req: Request, res: Response) => {
   }
 };
 
-export const BlogController = { createBlog };
+const getBlogs = async (req: Request, res: Response) => {
+  const blogs = await Blog.find();
+  sendResponse(res, {
+    success: true,
+    message: "Blogs found",
+    statusCode: 200,
+    data: blogs,
+  });
+};
+
+const getBlogById = async (req: Request, res: Response) => {
+  const blog = await Blog.findById(req.params.id);
+  sendResponse(res, {
+    success: true,
+    message: "Blog found",
+    statusCode: 200,
+    data: blog,
+  });
+};
+
+const updateBlog = async (req: Request, res: Response) => {
+  const blog = await Blog.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+  sendResponse(res, {
+    success: true,
+    message: "Blog updated",
+    statusCode: 200,
+    data: blog,
+  });
+};
+
+const deleteBlog = async (req: Request, res: Response) => {
+  const blog = await Blog.findByIdAndDelete(req.params.id);
+  sendResponse(res, {
+    success: true,
+    message: "Blog deleted",
+    statusCode: 200,
+    data: blog,
+  });
+};
+
+export const BlogController = {
+  createBlog,
+  getBlogs,
+  getBlogById,
+  updateBlog,
+  deleteBlog,
+};
