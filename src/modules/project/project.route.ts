@@ -5,6 +5,6 @@ import { ProjectController } from "./project.controller";
 const router = Router();
 
 router.post("/", auth(), ProjectController.createProject);
-router.get("/", auth(), ProjectController.getProjects);
-router.get("/:id", auth(), ProjectController.getProjectById);
+router.get("/", ProjectController.getProjects);
+router.get("/:id", ProjectController.getProjectById);
 export const ProjectRoutes = router;
