@@ -1,30 +1,5 @@
 import { Schema, model } from "mongoose";
-import { IBlog, IComment } from "./blog.model";
-
-//  Comment Schema for anonymous users
-const commentSchema = new Schema<IComment>({
-  name: {
-    type: String,
-    required: [true, "Name is required for comments."],
-    trim: true,
-  },
-  email: {
-    type: String,
-    trim: true,
-    lowercase: true,
-    // Optional: Basic email format validation
-    match: [/^\S+@\S+\.\S+$/, "Please use a valid email address."],
-  },
-  text: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+import { IBlog } from "./blog.model";
 
 // Main Blog Schema
 const blogSchema = new Schema<IBlog>(
@@ -51,11 +26,6 @@ const blogSchema = new Schema<IBlog>(
       type: String,
       maxlength: [300, "Excerpt cannot be more than 300 characters."],
     },
-    author: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
     tags: {
       type: [String],
       default: [],
@@ -67,10 +37,6 @@ const blogSchema = new Schema<IBlog>(
     },
     featuredImage: {
       type: String,
-    },
-    views: {
-      type: Number,
-      default: 0,
     },
     likeCount: {
       type: Number,

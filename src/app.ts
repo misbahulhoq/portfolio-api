@@ -7,7 +7,6 @@ import appRoutes from "./routes";
 import { errorHandler } from "./middleware/errorHanlder";
 import cookieParser from "cookie-parser";
 const app = express();
-import path from "path";
 
 app.use(express.json());
 app.use(cookieParser());
@@ -36,8 +35,6 @@ app.get("/", (_, res) => {
 });
 
 app.use("/api/v1", appRoutes);
-app.use("/uploads", express.static("uploads"));
 app.use(errorHandler);
-const filePath = path.join(__dirname, `/uploads/screenshot`);
-console.log(filePath);
+
 export default app;
