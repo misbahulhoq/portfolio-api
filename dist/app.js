@@ -13,6 +13,7 @@ const routes_1 = __importDefault(require("./routes"));
 const errorHanlder_1 = require("./middleware/errorHanlder");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
+// middlewares
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 let origin;
