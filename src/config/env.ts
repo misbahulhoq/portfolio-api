@@ -9,6 +9,7 @@ interface EnvVars {
   JWT_REFRESH_SECRET: string;
   JWT_ACCESS_EXPIRES: string;
   JWT_REFRESH_EXPIRES: string;
+  GEMINI_API_KEY: string;
   ADMIN_EMAIL: string;
   ADMIN_PASS: string;
   SALT_ROUND: number;
@@ -24,6 +25,7 @@ const requiredVars: (keyof EnvVars)[] = [
   "JWT_REFRESH_SECRET",
   "JWT_ACCESS_EXPIRES",
   "JWT_REFRESH_EXPIRES",
+  "GEMINI_API_KEY",
   "ADMIN_EMAIL",
   "ADMIN_PASS",
   "SALT_ROUND",
@@ -47,6 +49,7 @@ const envVars: EnvVars & { PORT: number } = {
   JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET as string,
   JWT_ACCESS_EXPIRES: process.env.JWT_ACCESS_EXPIRES as string,
   JWT_REFRESH_EXPIRES: process.env.JWT_REFRESH_EXPIRES as string,
+  GEMINI_API_KEY: process.env.GEMINI_API_KEY as string,
   ADMIN_EMAIL: process.env.ADMIN_EMAIL as string,
   ADMIN_PASS: process.env.ADMIN_PASS as string,
   SALT_ROUND: Number(process.env.SALT_ROUND),

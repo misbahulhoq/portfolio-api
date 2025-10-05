@@ -7,6 +7,11 @@ const projectSchema = new mongoose_1.Schema({
         required: [true, "Project title is required."],
         trim: true,
     },
+    tagline: {
+        type: String,
+        required: [true, "Project tagline is required."],
+        trim: true,
+    },
     thumbnail: {
         type: [String],
         required: [true, "A thumbnail URL is required."],
@@ -38,6 +43,7 @@ const projectSchema = new mongoose_1.Schema({
     },
     duration: {
         type: String,
+        required: [true, "Please list the duration of the project."],
     },
     displayOrder: {
         type: Number,

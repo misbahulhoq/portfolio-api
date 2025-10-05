@@ -13,7 +13,6 @@ const routes_1 = __importDefault(require("./routes"));
 const errorHanlder_1 = require("./middleware/errorHanlder");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
-const path_1 = __importDefault(require("path"));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 let origin;
@@ -36,8 +35,5 @@ app.get("/", (_, res) => {
     res.send({ message: "Portfolio Server is running", success: true });
 });
 app.use("/api/v1", routes_1.default);
-app.use("/uploads", express_1.default.static("uploads"));
 app.use(errorHanlder_1.errorHandler);
-const filePath = path_1.default.join(__dirname, `/uploads/screenshot`);
-console.log(filePath);
 exports.default = app;
