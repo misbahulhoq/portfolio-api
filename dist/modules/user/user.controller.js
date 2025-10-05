@@ -43,11 +43,9 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const accessTokenCookieOptions = {
         httpOnly: true,
         secure: true,
-        sameSite: "lax",
+        sameSite: "none",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
     };
-    if (isRememberMe) {
-        accessTokenCookieOptions.maxAge = 7 * 24 * 60 * 60 * 1000;
-    }
     res.cookie("accessToken", accessToken, accessTokenCookieOptions);
     res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
