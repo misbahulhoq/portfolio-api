@@ -1,18 +1,19 @@
 import mongoose from "mongoose";
 
 interface IChat extends Document {
-  question: string;
-  answer: string;
+  text: string;
+  sender: "bot" | "user";
 }
 
 const chatSchema = new mongoose.Schema<IChat>({
-  question: {
+  text: {
     type: String,
-    required: [true, "Question is required"],
+    required: [true, "Text is required"],
   },
-  answer: {
+  sender: {
     type: String,
-    required: [true, "Answer is required"],
+    enum: ["bot", "user"],
+    required: [true, "Sender is required"],
   },
 });
 

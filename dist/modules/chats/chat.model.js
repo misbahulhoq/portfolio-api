@@ -6,13 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Chat = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const chatSchema = new mongoose_1.default.Schema({
-    question: {
+    text: {
         type: String,
-        required: [true, "Question is required"],
+        required: [true, "Text is required"],
     },
-    answer: {
+    sender: {
         type: String,
-        required: [true, "Answer is required"],
+        enum: ["bot", "user"],
+        required: [true, "Sender is required"],
     },
 });
 exports.Chat = mongoose_1.default.model("Chat", chatSchema);
