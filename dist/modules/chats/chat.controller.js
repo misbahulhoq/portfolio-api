@@ -17,38 +17,28 @@ const AppError_1 = __importDefault(require("../../utils/AppError"));
 const genai_1 = require("@google/genai");
 const env_1 = __importDefault(require("../../config/env"));
 const sendResponse_1 = require("../../utils/sendResponse");
-const chat_model_1 = require("./chat.model");
 const training_data_1 = require("./training-data");
 const ai = new genai_1.GoogleGenAI({ apiKey: env_1.default.GEMINI_API_KEY });
 const chat = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { question, context } = req.body;
+    const { question, history } = req.body;
     if (!question) {
         throw new AppError_1.default("Question is required", 400);
     }
     const chat = ai.chats.create({
-        model: "gemini-2.0-flash",
+        model: "gemini-2.5-flash",
+        history,
+        config: {
+            systemInstruction: `${training_data_1.data}`,
+        },
     });
-    const testResponse = chat.sendMessage({
-        message: `${training_data_1.data}\n\n . ${context.length > 1 ? "Use this context for your answer." + context : ""} Now answer this question: ${question}`,
-    });
-    const testChunk = yield ai.models.generateContentStream({
-        model: "gemini-2.0-flash",
-        contents: `${training_data_1.data}\n\n . Now answer this question: ${question}`,
-    });
-    yield chat_model_1.Chat.create({ text: question, sender: "user" });
-    const response = yield ai.models.generateContent({
-        model: "gemini-2.0-flash",
-        contents: `${training_data_1.data}\n\n . 
-    
-    Now answer this question: ${question}`,
-    });
+    const response = yield chat.sendMessage({ message: question });
     const text = response.text;
-    yield chat_model_1.Chat.create({ text, sender: "bot" });
+    // await Chat.create({ text: question, sender: "user" });
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         message: "Question answered.",
         statusCode: 200,
-        data: { text, sender: "bot" },
+        data: { parts: [{ text }], role: "model" },
     });
 });
 const createContext = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });

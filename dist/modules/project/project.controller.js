@@ -43,4 +43,15 @@ const getProjectById = (req, res) => __awaiter(void 0, void 0, void 0, function*
         data: project,
     });
 });
+const editProject = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const project = yield project_model_1.default.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+    });
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        message: "Project updated",
+        statusCode: 200,
+        data: project,
+    });
+});
 exports.ProjectController = { createProject, getProjects, getProjectById };

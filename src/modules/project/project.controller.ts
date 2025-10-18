@@ -33,4 +33,16 @@ const getProjectById = async (req: Request, res: Response) => {
   });
 };
 
+const editProject = async (req: Request, res: Response) => {
+  const project = await Project.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+  sendResponse(res, {
+    success: true,
+    message: "Project updated",
+    statusCode: 200,
+    data: project,
+  });
+};
+
 export const ProjectController = { createProject, getProjects, getProjectById };
